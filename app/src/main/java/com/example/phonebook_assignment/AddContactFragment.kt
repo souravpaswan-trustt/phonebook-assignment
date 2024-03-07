@@ -14,6 +14,7 @@ import androidx.navigation.findNavController
 import com.example.phonebook_assignment.ContactViewModel
 import com.example.phonebook_assignment.ContactViewModelFactory
 import com.example.phonebook_assignment.databinding.FragmentAddContactBinding
+import com.example.phonebook_assignment.db.Contact
 import com.example.phonebook_assignment.db.ContactDatabase
 import com.example.phonebook_assignment.db.ContactRepository
 import java.lang.Exception
@@ -31,26 +32,44 @@ class AddContactFragment : Fragment() {
         val dao = ContactDatabase.getInstance(requireContext()).contactDAO
         val repository = ContactRepository(dao)
         val factory = ContactViewModelFactory(repository)
-        contactViewModel = ViewModelProvider(this,factory)[ContactViewModel::class.java]
+        contactViewModel = ViewModelProvider(this, factory)[ContactViewModel::class.java]
         binding.myViewModel = contactViewModel
         binding.lifecycleOwner = this
-        binding.saveContactButton.setOnClickListener{
-            try {
-                contactViewModel.saveContact()
+
+        try {
+            val primaryKey = requireArguments().getInt("contact_key")
+            val first_name = requireArguments().getString("first_name")
+            val last_name = requireArguments().getString("last_name")
+            val mobileno = requireArguments().getString("mobileno")
+            val email = requireArguments().getString("email")
+            contactViewModel.firstName.value = first_name
+            contactViewModel.lastName.value = last_name
+            contactViewModel.email.value = email
+            contactViewModel.mobileno.value = mobileno
+
+            binding.saveContactButton.setOnClickListener {
+                contactViewModel.updateContact(primaryKey)
                 contactViewModel.contacts.observe(viewLifecycleOwner, Observer {
-                    Log.i("MYTAG",it.toString())
+                    Log.i("MYTAG", it.toString())
                 })
                 it.findNavController().navigate(R.id.action_addContactFragment_to_homeFragment)
 
-                Toast.makeText(
-                    this@AddContactFragment.requireContext(),
-                    "Contact saved sucessfully!",
-                    Toast.LENGTH_LONG
-                ).show()
-            } catch(e: Exception){
-                Log.i("MYTAG", e.toString())
+                Toast.makeText(this@AddContactFragment.requireContext(),
+                    "Contact updated sucessfully!", Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: Exception) {
+            binding.saveContactButton.setOnClickListener {
+                contactViewModel.saveContact()
+                contactViewModel.contacts.observe(viewLifecycleOwner, Observer {
+                    Log.i("MYTAG", it.toString())
+                })
+                it.findNavController().navigate(R.id.action_addContactFragment_to_homeFragment)
+
+                Toast.makeText(this@AddContactFragment.requireContext(),
+                    "Contact saved sucessfully!", Toast.LENGTH_SHORT).show()
             }
         }
+
         binding.discardButton.setOnClickListener {
             it.findNavController().navigate(R.id.action_addContactFragment_to_homeFragment)
         }

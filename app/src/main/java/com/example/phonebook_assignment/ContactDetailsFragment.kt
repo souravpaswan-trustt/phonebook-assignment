@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -45,7 +46,12 @@ class ContactDetailsFragment : Fragment() {
         binding.showDetailsEmailTextView.text = email
 
         binding.editContactFAB.setOnClickListener {
-
+            val bundle = bundleOf("contact_key" to primaryKey,
+                "first_name" to first_name,
+                "last_name" to last_name,
+                "email" to email,
+                "mobileno" to mobileno)
+            it.findNavController().navigate(R.id.action_contactDetailsFragment_to_addContactFragment, bundle)
         }
 
         binding.deleteContactFAB.setOnClickListener {
@@ -61,9 +67,7 @@ class ContactDetailsFragment : Fragment() {
                 Toast.makeText(this@ContactDetailsFragment.requireContext(), e.toString(),
                     Toast.LENGTH_LONG).show()
             }
-
         }
-
         return binding.root
     }
 }

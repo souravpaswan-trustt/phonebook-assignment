@@ -30,6 +30,18 @@ class ContactViewModel(private val repository: ContactRepository) : ViewModel() 
         mobileno.value = ""
     }
 
+    fun updateContact(id: Int){
+        val first_name = firstName.value!!
+        val last_name = lastName.value!!
+        val user_email = email.value!!
+        val mobile = mobileno.value!!
+        update(Contact(id, first_name, last_name, mobile, user_email))
+        firstName.value = ""
+        lastName.value = ""
+        email.value = ""
+        mobileno.value = ""
+    }
+
     fun insert(contact: Contact){
         viewModelScope.launch(Dispatchers.IO) {
             repository.insert(contact)
