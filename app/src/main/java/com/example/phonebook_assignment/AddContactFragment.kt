@@ -52,34 +52,43 @@ class AddContactFragment : Fragment() {
                 contactViewModel.contacts.observe(viewLifecycleOwner, Observer {
                     Log.i("MYTAG", it.toString())
                 })
-                it.findNavController().navigate(R.id.action_addContactFragment_to_homeFragment)
-
-                Toast.makeText(
-                    this@AddContactFragment.requireContext(),
-                    "Contact updated sucessfully!", Toast.LENGTH_SHORT
-                ).show()
+                var flag = ""
+                contactViewModel.message.observe(viewLifecycleOwner, Observer {
+                    it.getContentIfNotHandled()?.let{
+                        flag = it
+                    }
+                })
+                if(flag.equals("success")) {
+                    Toast.makeText(this@AddContactFragment.requireContext(),
+                        "Contact updated sucessfully!", Toast.LENGTH_SHORT).show()
+                    it.findNavController().navigate(R.id.action_addContactFragment_to_homeFragment)
+                } else{
+                    Toast.makeText(this@AddContactFragment.requireContext(),
+                        flag, Toast.LENGTH_SHORT).show()
+                }
             }
         } catch (e: Exception) {
             binding.saveContactButton.setOnClickListener {
-                var message: String? = null
-                if (contactViewModel.firstName.value.equals("") ||
-                    contactViewModel.lastName.value.equals("") ||
-                    contactViewModel.mobileno.value.equals("") ||
-                    contactViewModel.email.value.equals("")
-                ) {
-                    message = "Please fill all the fields!!"
-                } else {
-                    contactViewModel.saveContact()
-                    contactViewModel.contacts.observe(viewLifecycleOwner, Observer {
-                        Log.i("MYTAG", it.toString())
-                    })
-                    message = "Contact Saved successfully"
+                contactViewModel.saveContact()
+                contactViewModel.contacts.observe(viewLifecycleOwner, Observer {
+                    Log.i("MYTAG", it.toString())
+                })
+                var flag = ""
+                contactViewModel.message.observe(viewLifecycleOwner, Observer {
+                    it.getContentIfNotHandled()?.let{
+                        flag = it
+                    }
+                })
+                if(flag.equals("success")) {
+                    Toast.makeText(this@AddContactFragment.requireContext(),
+                        "Contact added sucessfully!", Toast.LENGTH_SHORT).show()
                     it.findNavController().navigate(R.id.action_addContactFragment_to_homeFragment)
+                } else {
+                    Toast.makeText(
+                        this@AddContactFragment.requireContext(),
+                        flag, Toast.LENGTH_SHORT
+                    ).show()
                 }
-                Toast.makeText(
-                    this@AddContactFragment.requireContext(), message,
-                    Toast.LENGTH_SHORT
-                ).show()
             }
         }
 
