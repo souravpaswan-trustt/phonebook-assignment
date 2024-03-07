@@ -1,5 +1,6 @@
 package com.example.phonebook_assignment
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -40,33 +41,38 @@ class ContactDetailsFragment : Fragment() {
         val mobileno = requireArguments().getString("mobileno")
         val email = requireArguments().getString("email")
 
-        binding.showDetailsNameTextView.text = first_name +" " + last_name
+        binding.showDetailsNameTextView.text = first_name + " " + last_name
 
         binding.showDetailsNumberTextView.text = mobileno
         binding.showDetailsEmailTextView.text = email
 
         binding.editContactFAB.setOnClickListener {
-            val bundle = bundleOf("contact_key" to primaryKey,
+            val bundle = bundleOf(
+                "contact_key" to primaryKey,
                 "first_name" to first_name,
                 "last_name" to last_name,
                 "email" to email,
-                "mobileno" to mobileno)
-            it.findNavController().navigate(R.id.action_contactDetailsFragment_to_addContactFragment, bundle)
+                "mobileno" to mobileno
+            )
+            it.findNavController()
+                .navigate(R.id.action_contactDetailsFragment_to_addContactFragment, bundle)
         }
 
         binding.deleteContactFAB.setOnClickListener {
-            try {
-                val ob: Contact
-                ob = Contact(primaryKey, first_name!!, last_name!!, mobileno!!, email!!)
-                contactViewModel.delete(ob)
+
+            val dialog = AlertDialog.Builder(this@ContactDetailsFragment.requireContext())
+            dialog.setMessage("Are you sure you want to delete?")
+            dialog.setTitle("Delete Contact")
+            dialog.setPositiveButton("Yes") { _, _ ->
+                contactViewModel.delete(Contact(primaryKey, first_name!!, last_name!!, mobileno!!, email!!))
                 it.findNavController().navigate(R.id.action_contactDetailsFragment_to_homeFragment2)
                 Toast.makeText(this@ContactDetailsFragment.requireContext(),
-                    "Contact deleted successfully",
-                    Toast.LENGTH_SHORT).show()
-            } catch(e : Exception){
-                Toast.makeText(this@ContactDetailsFragment.requireContext(), e.toString(),
-                    Toast.LENGTH_LONG).show()
+                    "Contact deleted successfully", Toast.LENGTH_SHORT).show()
+
             }
+            dialog.setNegativeButton("No"){_,_ ->}
+            val dialogBox = dialog.create()
+            dialogBox.show()
         }
         return binding.root
     }
