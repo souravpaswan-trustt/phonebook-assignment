@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
@@ -52,18 +53,12 @@ class SignUpFragment : Fragment() {
         }
 
         binding.SignUpButton.setOnClickListener {
-            if(contactViewModel.signUpUsername.value == "" || contactViewModel.signUpPassword.value == ""){
+            if(contactViewModel.signUpUsername.value == "" || contactViewModel.signUpPassword.value == ""
+                || contactViewModel.signUpUsername.value == null || contactViewModel.signUpPassword.value == null){
 
-                AlertDialog.Builder(this.requireContext())
-                    .setMessage("Please Enter Some values")
-                    .setPositiveButton("Yes") { dialog, which ->
-                        // If the user confirms, go to the home page
-                    }
-                    .setNegativeButton("No") { dialog, which ->
-                        // go back to ask login page
-                        it.findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
-                    }
-                    .show()
+                Toast.makeText(this@SignUpFragment.requireContext(),
+                    "Please enter values for the fields!",
+                    Toast.LENGTH_SHORT).show()
             }
             else{
                 val name = contactViewModel.signUpUsername.value

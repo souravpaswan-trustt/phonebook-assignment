@@ -44,18 +44,10 @@ class LoginFragment : Fragment() {
             val pass = contactViewModel.loginPassword.value
             var bundle = bundleOf("user_name" to name)
 
-            if (name == ""|| pass==""){
-                AlertDialog.Builder(this.requireContext())
-                    .setMessage("Please enter Values in the Field")
-                    .setPositiveButton("Yes") { dialog, which ->
-                        // If the user confirms, finish the activity to exit the app
-
-                    }
-                    .setNegativeButton("No") { dialog, which ->
-                        // go back to ask login page
-                        it.findNavController().navigate(R.id.action_loginFragment_to_signUpFragment2)
-                    }
-                    .show()
+            if (name == null || name == ""|| pass == null || pass=="" ){
+                Toast.makeText(this@LoginFragment.requireContext(),
+                    "Please enter values for the fields!",
+                    Toast.LENGTH_SHORT).show()
             }
             else if(pass.equals(preference.getData(name!!,""))) {
                 it.findNavController().navigate(R.id.action_loginFragment_to_homeFragment,bundle)

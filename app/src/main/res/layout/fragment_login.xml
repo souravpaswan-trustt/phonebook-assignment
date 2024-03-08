@@ -30,11 +30,11 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:hint="USERNAME"
+                    android:inputType="text"
                     android:paddingHorizontal="15dp"
                     android:paddingVertical="20dp"
-                    android:hint="EMAIL"
-                    android:text="@={myViewModel.loginUsername}"
-                    android:inputType="text"/>
+                    android:text="@={myViewModel.loginUsername}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
