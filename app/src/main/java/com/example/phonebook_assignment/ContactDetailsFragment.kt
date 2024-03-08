@@ -15,6 +15,7 @@ import com.example.phonebook_assignment.databinding.FragmentContactDetailsBindin
 import com.example.phonebook_assignment.db.Contact
 import com.example.phonebook_assignment.db.ContactDatabase
 import com.example.phonebook_assignment.db.ContactRepository
+import com.example.phonebook_assignment.viewmodel.ContactViewModel
 
 class ContactDetailsFragment : Fragment() {
 

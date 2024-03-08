@@ -5,7 +5,7 @@
     <data>
         <variable
             name="myViewModel"
-            type="com.example.phonebook_assignment.ContactViewModel" />
+            type="com.example.phonebook_assignment.viewmodel.ContactViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -11,20 +11,18 @@ import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.phonebook_assignment.databinding.FragmentHomeBinding
 import com.example.phonebook_assignment.db.Contact
 import com.example.phonebook_assignment.db.ContactDatabase
 import com.example.phonebook_assignment.db.ContactRepository
-
+import com.example.phonebook_assignment.viewmodel.ContactViewModel
 
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var contactViewModel: ContactViewModel
-//    private lateinit var adapter: MyRecyclerViewAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,15 +38,9 @@ class HomeFragment : Fragment() {
 
         initReyclerView()
 
-//        contactViewModel.message.observe(this, Observer {
-//            it.getContentIfNotHandled()?.let{
-//                Toast.makeText(this, it, Toast.LENGTH_LONG).show()
-//            }
-//        })
         binding.addContactFAB.setOnClickListener {
             it.findNavController().navigate(R.id.action_homeFragment_to_addContactFragment)
         }
-//        displayContactList()
         return binding.root
     }
 
@@ -61,8 +53,6 @@ class HomeFragment : Fragment() {
         contactViewModel.contacts.observe(viewLifecycleOwner, Observer {
             Log.i("MYTAG",it.toString())
             binding.contactRecyclerView.adapter = MyRecyclerViewAdapter(it, {selectedItem:Contact->listItemClicked(selectedItem)})
-//            adapter.setList(it)
-//            adapter.notifyDataSetChanged()
         })
     }
 
@@ -76,12 +66,10 @@ class HomeFragment : Fragment() {
 
             requireView().findNavController()
                 .navigate(R.id.action_homeFragment_to_contactDetailsFragment2, bundle)
-//            contactViewModel.showDetails(contact)
 
         } catch (e: Exception){
             Toast.makeText(this@HomeFragment.requireContext(), e.toString(),
                 Toast.LENGTH_LONG).show()
         }
-//        contactViewModel.initUpdateAndDelete(Contact)
     }
 }

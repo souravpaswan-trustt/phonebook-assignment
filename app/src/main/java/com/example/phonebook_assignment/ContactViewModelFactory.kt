@@ -3,6 +3,7 @@ package com.example.phonebook_assignment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.phonebook_assignment.db.ContactRepository
+import com.example.phonebook_assignment.viewmodel.ContactViewModel
 
 class ContactViewModelFactory(private val repository: ContactRepository): ViewModelProvider.Factory{
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

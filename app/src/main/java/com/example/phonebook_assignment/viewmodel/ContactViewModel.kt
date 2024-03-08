@@ -1,10 +1,11 @@
-package com.example.phonebook_assignment
+package com.example.phonebook_assignment.viewmodel
 
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.phonebook_assignment.Event
 import com.example.phonebook_assignment.db.Contact
 import com.example.phonebook_assignment.db.ContactRepository
 import kotlinx.coroutines.Dispatchers
@@ -19,6 +20,11 @@ class ContactViewModel(private val repository: ContactRepository) : ViewModel() 
     val lastName = MutableLiveData<String>()
     val email = MutableLiveData<String>()
     val mobileno = MutableLiveData<String>()
+
+    val signUpUsername = MutableLiveData<String>()
+    val signUpPassword = MutableLiveData<String>()
+    val loginUsername = MutableLiveData<String>()
+    val loginPassword = MutableLiveData<String>()
 
     val message: LiveData<Event<String>>
         get() = statusMessage

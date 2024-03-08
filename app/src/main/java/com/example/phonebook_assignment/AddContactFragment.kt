@@ -11,10 +11,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import com.example.phonebook_assignment.ContactViewModel
-import com.example.phonebook_assignment.ContactViewModelFactory
+import com.example.phonebook_assignment.viewmodel.ContactViewModel
 import com.example.phonebook_assignment.databinding.FragmentAddContactBinding
-import com.example.phonebook_assignment.db.Contact
 import com.example.phonebook_assignment.db.ContactDatabase
 import com.example.phonebook_assignment.db.ContactRepository
 import java.lang.Exception

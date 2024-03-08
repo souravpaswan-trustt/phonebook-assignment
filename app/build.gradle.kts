@@ -43,6 +43,7 @@ android {
 
 dependencies {
 
+    implementation(libs.androidx.ui.graphics.android)
     val lifecycle_version = "2.6.0-alpha01"
     val room_version = "2.6.1"
     val nav_version = "2.7.7"
